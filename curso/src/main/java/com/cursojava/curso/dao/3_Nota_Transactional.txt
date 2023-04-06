@@ -1,0 +1,34 @@
+
+    @Transactional es una anotación de Spring Framework que se utiliza para indicar que un método o una clase
+    completa debe ser ejecutada dentro de una transacción.
+        Una transacción en el contexto de una base de datos es un conjunto de operaciones que se ejecutan como
+        una sola unidad lógica de trabajo. Todas las operaciones dentro de una transacción deben completarse
+        correctamente o, en caso contrario, deben ser revertidas a su estado anterior. En otras palabras, una
+        transacción asegura que todas las operaciones dentro de ella se completen o se deshagan en conjunto,
+        para mantener la integridad y consistencia de los datos en la base de datos.
+
+        En una aplicación empresarial, las transacciones son fundamentales para garantizar que los datos estén
+        siempre en un estado válido y coherente, incluso en situaciones de error o falla. Al utilizar una
+        transacción, se puede asegurar que todas las operaciones de la base de datos se completen correctamente
+        o se reviertan automáticamente en caso de que ocurra algún error durante el proceso, lo que minimiza la
+        posibilidad de corrupción de los datos.
+
+        En resumen, una transacción es un mecanismo que garantiza la consistencia y la integridad de los datos
+        en una base de datos, al tiempo que proporciona un medio para manejar errores y fallas en la aplicación.
+        La anotación @Transactional de Spring se utiliza para indicar que un método o una clase completa debe
+        ser ejecutada dentro de una transacción.
+
+    Al igual que la anotación @Transactional de JPA, la versión de Spring se utiliza en conjunción con un
+    administrador de transacciones, que es responsable de administrar y coordinar las transacciones en la aplicación.
+
+    La anotación @Transactional de Spring tiene varias opciones de configuración que permiten personalizar el
+    comportamiento de la transacción. Por ejemplo, se puede configurar la propagación de la transacción, que
+    define cómo se manejan las transacciones dentro de una jerarquía de llamadas de método, o el aislamiento
+    de la transacción, que define cómo se accede a los datos en una transacción concurrente.
+
+    Además, la anotación @Transactional de Spring también se puede utilizar para marcar métodos como de solo
+    lectura, lo que indica que no se realizarán operaciones de escritura en la base de datos dentro del método anotado.
+
+    En resumen, la anotación @Transactional de Spring es una herramienta poderosa que permite garantizar la
+    integridad y consistencia de la base de datos en una aplicación empresarial, al tiempo que proporciona
+    opciones de configuración flexibles para adaptarse a diferentes casos de uso.

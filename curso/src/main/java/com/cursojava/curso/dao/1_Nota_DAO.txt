@@ -1,0 +1,112 @@
+    En Java, DAO significa "Data Access Object" (Objeto de Acceso a Datos, en español) y es un patrón
+    de diseño que se utiliza para encapsular la lógica de acceso a datos de una aplicación en un objeto
+    separado. El propósito principal de un objeto DAO es separar la capa de acceso a datos de la capa de
+    lógica de negocio de la aplicación.
+
+    En términos simples, un objeto DAO es una clase que proporciona una interfaz entre la capa de la
+    aplicación que maneja la lógica de negocio y la capa de acceso a datos que maneja la persistencia
+    de los datos en una base de datos o cualquier otro medio de almacenamiento.
+
+    Algunas de las funcionalidades que proporciona un objeto DAO son:
+
+    * Abstracción de la complejidad del acceso a datos: Un objeto DAO se encarga de todas las operaciones
+    de acceso a datos y abstrae la complejidad de la implementación de la capa de acceso a datos.
+
+    * Independencia de la tecnología de acceso a datos: Un objeto DAO puede trabajar con cualquier tecnología
+    de acceso a datos, lo que hace que la aplicación sea más fácil de mantener y cambiar.
+
+    * Separación de la lógica de negocio y el acceso a datos: Un objeto DAO separa la lógica de negocio de la
+    capa de acceso a datos, lo que mejora la claridad y el mantenimiento del código.
+
+    En resumen, un objeto DAO es una clase que proporciona una interfaz entre la capa de lógica de negocio y
+    la capa de acceso a datos de una aplicación, lo que mejora la claridad, mantenimiento y escalabilidad del
+    código de la aplicación.
+
+    Ej:
+
+    Un código DAO es una clase que proporciona acceso a la capa de persistencia de datos de una aplicación.
+    Aquí hay un ejemplo simple de una clase DAO para una entidad "Usuario" en Java utilizando JDBC (Java Database
+    Connectivity):
+
+    import java.sql.Connection;
+    import java.sql.PreparedStatement;
+    import java.sql.ResultSet;
+    import java.sql.SQLException;
+
+    public class UsuarioDAO {
+
+        private Connection conexion;
+
+        public UsuarioDAO(Connection conexion) {
+            this.conexion = conexion;
+        }
+
+        public Usuario obtenerPorId(int id) throws SQLException {
+            String query = "SELECT id, nombre, email FROM usuarios WHERE id = ?";
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNombre(rs.getString("nombre"));
+                usuario.setEmail(rs.getString("email"));
+                return usuario;
+            }
+            return null;
+        }
+
+        public void guardar(Usuario usuario) throws SQLException {
+            String query = "INSERT INTO usuarios (nombre, email) VALUES (?, ?)";
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setString(1, usuario.getNombre());
+            ps.setString(2, usuario.getEmail());
+            ps.executeUpdate();
+        }
+
+        public void actualizar(Usuario usuario) throws SQLException {
+            String query = "UPDATE usuarios SET nombre = ?, email = ? WHERE id = ?";
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setString(1, usuario.getNombre());
+            ps.setString(2, usuario.getEmail());
+            ps.setInt(3, usuario.getId());
+            ps.executeUpdate();
+        }
+
+        public void eliminar(int id) throws SQLException {
+            String query = "DELETE FROM usuarios WHERE id = ?";
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        }
+    }
+
+    En este ejemplo, la clase UsuarioDAO proporciona cuatro métodos para interactuar con la tabla "usuarios"
+    en la base de datos:
+
+    * obtenerPorId: busca un usuario por su ID en la base de datos y devuelve un objeto Usuario.
+    * guardar: guarda un nuevo usuario en la base de datos.
+    * actualizar: actualiza los datos de un usuario existente en la base de datos.
+    * eliminar: elimina un usuario de la base de datos según su ID.
+    Para utilizar esta clase DAO en una aplicación, se debe crear una conexión a la base de datos y luego
+    crear una instancia de la clase UsuarioDAO utilizando esa conexión. Por ejemplo:
+
+    import java.sql.Connection;
+    import java.sql.DriverManager;
+    import java.sql.SQLException;
+
+    public class MyApp {
+
+        public static void main(String[] args) {
+            try (Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "usuario", "contraseña")) {
+                UsuarioDAO usuarioDao = new UsuarioDAO(conexion);
+                Usuario usuario = usuarioDao.obtenerPorId(1);
+                System.out.println(usuario.getNombre());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    En este ejemplo, se crea una conexión a una base de datos MySQL y se pasa a la instancia de UsuarioDAO.
+    Luego se utiliza el método obtenerPorId para buscar un usuario por su ID y se imprime su nombre en la consola.

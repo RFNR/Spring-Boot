@@ -1,0 +1,49 @@
+
+    En Spring Boot, @Table es una anotación de JPA (Java Persistence API) que se utiliza para especificar
+    el nombre de la tabla en la base de datos que se corresponde con una entidad de JPA.
+
+    Cuando se utiliza JPA, cada entidad de JPA se mapea a una tabla en la base de datos. El nombre de la
+    tabla en la base de datos normalmente se deriva del nombre de la entidad de JPA, pero en algunos casos
+    puede ser necesario especificar un nombre de tabla diferente.
+
+    La anotación @Table se utiliza para especificar el nombre de la tabla en la base de datos que se corresponde
+    con una entidad de JPA. Esta anotación se puede aplicar a la clase de entidad de JPA. Por ejemplo, si queremos
+    mapear una entidad de JPA llamada "Usuario" a una tabla llamada "usuarios" en la base de datos, podemos usar
+    la siguiente anotación:
+
+    @Entity
+    @Table(name = "usuarios")
+    public class Usuario {
+        ...
+    }
+
+    En este ejemplo, @Table se utiliza para especificar el nombre de la tabla en la base de datos que se corresponde
+    con la entidad de JPA "Usuario". El valor de la propiedad "name" de la anotación se establece en "usuarios",
+    que es el nombre de la tabla en la base de datos.
+
+    En resumen, @Table es una anotación de JPA que se utiliza para especificar el nombre de la tabla en la base
+    de datos que se corresponde con una entidad de JPA en Spring Boot.
+
+    En el ejemplo anterior, @Entity es una anotación de JPA (Java Persistence API) que se utiliza para marcar una
+    clase como una entidad de JPA.
+
+    Una entidad de JPA es una clase que se corresponde con una tabla en la base de datos y puede ser mapeada a esa
+    tabla utilizando JPA.
+
+    Para utilizar JPA en Spring Boot, es necesario marcar la clase de entidad de JPA con la anotación @Entity. Por
+    ejemplo, si queremos mapear una entidad de JPA llamada "Usuario" a una tabla llamada "usuarios" en la base de
+    datos, podemos usar la siguiente anotación:
+
+
+    @Entity
+    @Table(name = "usuarios")
+    public class Usuario {
+        ...
+    }
+    En este ejemplo, @Entity se utiliza para marcar la clase "Usuario" como una entidad de JPA. Esto significa
+    que esta clase puede ser mapeada a una tabla en la base de datos utilizando JPA. La anotación @Table también
+    se utiliza para especificar el nombre de la tabla en la base de datos que se corresponde con la entidad de
+    JPA "Usuario".
+
+    En resumen, @Entity es una anotación de JPA que se utiliza para marcar una clase como una entidad de JPA en
+    Spring Boot.

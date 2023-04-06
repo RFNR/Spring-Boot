@@ -1,0 +1,18 @@
+
+    La anotación @Repository en Spring Boot es una anotación de marcador que se utiliza para indicar que
+    una clase es un repositorio. Un repositorio en Spring Boot es una clase que se utiliza para acceder a
+    la capa de persistencia de datos, por ejemplo, para interactuar con una base de datos.
+
+    La anotación @Repository se utiliza para etiquetar una clase que realiza operaciones de acceso a datos,
+    como guardar, actualizar o recuperar datos de una base de datos. Esta anotación actúa como un estereotipo
+    para las clases de acceso a datos y les permite ser detectadas automáticamente por Spring y agregadas
+    al contexto de la aplicación.
+
+    Al etiquetar una clase como un repositorio con @Repository, se habilitan características adicionales de
+    Spring para trabajar con la capa de acceso a datos, como la traducción automática de excepciones de la
+    base de datos en excepciones más específicas de Spring.
+
+    Es importante tener en cuenta que la anotación @Repository es opcional en Spring Boot y no tiene una
+    funcionalidad específica más allá de servir como un marcador para identificar clases de acceso a datos.
+    Sin embargo, su uso es una buena práctica de programación para mantener una estructura clara y organizada
+    en el proyecto de Spring Boot.
