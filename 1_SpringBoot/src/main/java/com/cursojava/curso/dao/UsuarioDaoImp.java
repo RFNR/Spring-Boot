@@ -10,7 +10,7 @@
     @Repository // -> Ver 2_Nota_Repository
     @Transactional // Ver 3_Nota_Transactional
     public class UsuarioDaoImp implements UsuarioDao{
-        @PersistenceContext // -> Ver EntityManager y PersistenceContext 3_Nota_Entity_Persistence
+        @PersistenceContext // -> Ver EntityManager y PersistenceContext en 4_Nota_Entity_Persistence
         private EntityManager entityManager;
         @Override
         public List<Usuario> getUsuarios() {

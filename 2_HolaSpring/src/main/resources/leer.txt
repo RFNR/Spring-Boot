@@ -1,0 +1,188 @@
+
+    El archivo application.properties en Spring Boot es un archivo de configuración que se utiliza para establecer
+    propiedades específicas de la aplicación. Spring Boot usa el archivo application.properties para leer las
+    propiedades y configurar el entorno de la aplicación en consecuencia.
+
+    El archivo application.properties se puede utilizar para establecer varias propiedades de la aplicación, como
+    la configuración del servidor, la configuración de la base de datos, la configuración de logging, entre otras.
+    Algunas de las propiedades comunes que se pueden establecer en el archivo application.properties son:
+
+    * Configuración del puerto del servidor:
+        Se puede configurar en el archivo application.properties o en la clase application.yml.
+        Algunos ejemplos son:
+
+            -   server.port=8080 -> En application.properties
+
+            -   server:
+                  port: 8080 -> En application.yml
+
+            -   server.port=${SERVER_PORT:8080} -> En application.properties. Esto permitirá que el puerto
+            sea configurado mediante la variable de entorno del sistema SERVER_PORT, y si esta variable
+            no está definida, el puerto por defecto será 8080. Recordar que las variables de entorno del
+            sistema son locales a cada equipo.
+
+            -   En tiempo de ejecución:
+                    @SpringBootApplication
+                    public class MyApplication {
+
+                        public static void main(String[] args) {
+                            SpringApplication app = new SpringApplication(MyApplication.class);
+                            app.setDefaultProperties(Collections.singletonMap("server.port", "8080"));
+                            app.run(args);
+                        }
+                    }
+
+    * Configuración de la base de datos (URL, usuario, contraseña):
+
+        MySql:
+            spring.datasource.url=jdbc:mysql://localhost:3306/mydatabase
+            spring.datasource.username=root
+            spring.datasource.password=mysecretpassword
+            spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+    * Configuración de logging:
+        El logging se refiere a la actividad de registrar información sobre lo que está sucediendo en una
+        aplicación en tiempo de ejecución, como mensajes de error, advertencias, información de depuración y
+        cualquier otra cosa que sea relevante para el diagnóstico y solución de problemas. El objetivo del
+        logging es ayudar a los desarrolladores y administradores a comprender el comportamiento de la
+        aplicación, identificar problemas y realizar mejoras. En Spring Boot, el logging se configura a través
+        de la biblioteca SLF4J (Simple Logging Facade for Java) y diversas implementaciones como Logback y Log4j2.
+
+        logging.level.root=INFO -> Configuración de nivel de logging para la aplicación completa.
+
+        logging.level.com.example=DEBUG -> Configuración de nivel de logging para un paquete específico.
+
+        logging.level.com.example.MyClass=TRACE -> Configuración de nivel de logging para una clase específica.
+
+        logging.file.name=myapp.log
+        logging.file.path=/var/log/myapp/ -> Configuración de ruta y nombre de archivo para el archivo de log.
+
+        logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n -> Configuración de formato
+        de salida del log.
+
+        logging.console.enabled=true -> Habilitar el log en la consola.
+
+        logging.pattern.dateformat=HH:mm -> Cambio de formato de salida a solo horas y minutos.
+
+    * Configuración de la internacionalización
+    * Configuración de seguridad
+
+    Estas son solo algunas de las propiedades que se pueden configurar en el archivo application.properties. La
+    lista completa de propiedades disponibles depende de las bibliotecas que se estén utilizando en la aplicación.
+
+    En resumen, el archivo application.properties es una forma de establecer y personalizar la configuración de
+    la aplicación de Spring Boot de manera fácil y conveniente.
+
+------------------------------------------------------------------------------------------------------------------------
+
+    La carpeta "static" es una carpeta que se encuentra en la raíz del proyecto de Spring Boot y que se utiliza para
+    almacenar archivos estáticos que serán servidos por el servidor web. Estos archivos incluyen, por ejemplo,
+    archivos HTML, CSS, JavaScript, imágenes, entre otros.
+
+    La carpeta "static" es útil para servir contenido estático en una aplicación web. Por ejemplo, si desea crear
+    una página de inicio simple para su aplicación, puede crear un archivo HTML y colocarlo en la carpeta "static".
+    Cuando un usuario accede a la ruta correspondiente en su navegador, el servidor web servirá el archivo HTML
+    y lo mostrará al usuario.
+
+    Un ejemplo de cómo utilizar la carpeta "static" es crear una página de inicio personalizada. En primer lugar,
+    puede crear un archivo HTML llamado "index.html" y guardarlo en la carpeta "static". A continuación, puede
+    agregar el siguiente código a su controlador para devolver la página de inicio:
+
+        @Controller
+        public class HomeController {
+
+            @GetMapping("/")
+            public String home() {
+                return "index";
+            }
+        }
+    En este ejemplo, el controlador responde a la ruta "/" y devuelve la vista "index". Debido a que la vista se
+    encuentra en la carpeta "static", Spring Boot la buscará automáticamente allí y la servirá al usuario.
+
+    Otro ejemplo es servir una imagen en la página. Puede agregar una imagen en la carpeta "static" y luego hacer
+    referencia a ella en su archivo HTML utilizando la etiqueta <img>:
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Mi página web</title>
+        </head>
+        <body>
+            <h1>Bienvenido a mi página web</h1>
+            <img src="/mi-imagen.jpg" alt="Imagen de ejemplo">
+        </body>
+        </html>
+    En este ejemplo, la imagen "mi-imagen.jpg" se encuentra en la carpeta "static", por lo que puede acceder a ella
+    mediante la ruta "/mi-imagen.jpg". Al utilizar esta ruta en la etiqueta <img>, la imagen se mostrará en la página.
+
+    En resumen, la carpeta "static" es útil para almacenar y servir contenido estático en una aplicación web, como
+    archivos HTML, CSS, JavaScript e imágenes.
+
+------------------------------------------------------------------------------------------------------------------------
+
+    La carpeta "templates" en una aplicación de Spring Boot se utiliza para almacenar plantillas de vistas que se
+    utilizan para generar contenido HTML dinámico. Estas plantillas se utilizan en conjunto con un motor de
+    plantillas, como Thymeleaf o FreeMarker, para renderizar contenido HTML que se puede enviar como respuesta
+    a una solicitud HTTP.
+
+    En la carpeta "templates", se pueden crear subcarpetas para organizar las plantillas según su función o propósito
+    en la aplicación. Dentro de cada subcarpeta, se pueden crear archivos de plantilla con extensión .html o .ftl,
+    dependiendo del motor de plantillas utilizado.
+
+    A continuación, se muestra un ejemplo de cómo se puede utilizar la carpeta "templates" y el motor de plantillas
+    Thymeleaf para renderizar una vista de lista de usuarios en una aplicación web de Spring Boot:
+
+    Crear una plantilla llamada "users.html" en la carpeta "templates". Esta plantilla contiene el HTML necesario para
+    mostrar la lista de usuarios, con marcadores de posición para el contenido dinámico que se rellenará en tiempo
+    de ejecución:
+
+        <!DOCTYPE html>
+        <html xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <meta charset="UTF-8"/>
+            <title>Lista de usuarios</title>
+        </head>
+        <body>
+            <h1>Lista de usuarios</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.name}"></td>
+                        <td th:text="${user.email}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </body>
+        </html>
+
+    En un controlador de Spring Boot, se define un método para manejar la solicitud de la lista de usuarios y devolver
+    la vista de lista de usuarios. El método utiliza el objeto "Model" para pasar los datos de los usuarios a la
+    plantilla y renderizarla con Thymeleaf:
+
+        @Controller
+        public class UserController {
+
+            @Autowired
+            private UserService userService;
+
+            @GetMapping("/users")
+            public String userList(Model model) {
+                List<User> users = userService.getAllUsers();
+                model.addAttribute("users", users);
+                return "users";
+            }
+        }
+
+    Cuando se recibe una solicitud HTTP para la lista de usuarios, el método "userList" del controlador se ejecuta y
+    recupera la lista de usuarios de la base de datos utilizando el servicio "UserService". Luego, los datos de los
+    usuarios se agregan al modelo con el nombre "users". Finalmente, se devuelve el nombre de la plantilla "users",
+    que se renderiza con Thymeleaf para generar la respuesta HTML.
+    En resumen, la carpeta "templates" en una aplicación de Spring Boot se utiliza para almacenar plantillas de vistas
+    que se renderizan dinámicamente utilizando un motor de plantillas como Thymeleaf o FreeMarker. Esto permite crear
+    vistas dinámicas y personalizables que se ajustan a los datos que se devuelven en tiempo de ejecución.

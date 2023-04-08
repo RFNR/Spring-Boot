@@ -1,0 +1,185 @@
+
+    El HTML estático es un archivo HTML que permanece sin cambios en el servidor web y se envía tal cual
+    al navegador. El HTML dinámico, por otro lado, es creado dinámicamente en el servidor web antes de
+    ser enviado al navegador. Thymeleaf es una herramienta muy útil para generar contenido HTML dinámico
+    en un servidor web.
+
+    Aquí hay algunos ejemplos para ilustrar la diferencia:
+
+    Ejemplo de HTML estático:
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Mi página web estática</title>
+        </head>
+        <body>
+          <h1>Bienvenido a mi página web</h1>
+          <p>Esta es una página estática.</p>
+        </body>
+        </html>
+
+    Ejemplo de HTML dinámico con Thymeleaf:
+
+        <!DOCTYPE html>
+        <html xmlns:th="http://www.thymeleaf.org">
+        <head>
+          <title>Mi página web dinámica</title>
+        </head>
+        <body>
+          <h1 th:text="${titulo}">Bienvenido a mi página web</h1>
+          <p th:text="${contenido}">Esta es una página dinámica.</p>
+        </body>
+        </html>
+
+    En el segundo ejemplo, los valores de titulo y contenido son dinámicos y se pueden cambiar según
+    el contexto de la aplicación. Thymeleaf permite que estos valores se reemplacen dinámicamente en
+    el servidor antes de enviar la página al navegador.
+
+    Otro ejemplo es cuando se tienen múltiples opciones y se necesita mostrar algunas de ellas según
+    ciertas condiciones. Con HTML estático, se tendría que crear una página separada para cada
+    combinación posible de opciones. Con Thymeleaf, se pueden usar condicionales para mostrar las
+    opciones necesarias en una sola página.
+
+    Ejemplos de contenido dinámico con Thymeleaf:
+
+    * Mostrar el valor de una variable en la página HTML:
+
+    En el controlador:
+
+        @GetMapping("/mensaje")
+        public String mostrarMensaje(Model model) {
+            String mensaje = "¡Hola, mundo!";
+            model.addAttribute("mensaje", mensaje);
+            return "mensaje";
+        }
+
+    En la página HTML:
+
+        <h1 th:text="${mensaje}">Mensaje predeterminado</h1>
+
+    En este ejemplo, el controlador pasa el valor de la variable "mensaje" al modelo, y la página HTML utiliza la
+    sintaxis de Thymeleaf para mostrar ese valor en la etiqueta h1.
+
+    * Iterar sobre una lista y mostrar los elementos en la página HTML:
+
+    En el controlador:
+
+        @GetMapping("/lista")
+        public String mostrarLista(Model model) {
+            List<String> elementos = Arrays.asList("Elemento 1", "Elemento 2", "Elemento 3");
+            model.addAttribute("elementos", elementos);
+            return "lista";
+        }
+
+    En la página HTML:
+
+        <ul>
+            <li th:each="elemento : ${elementos}" th:text="${elemento}">Elemento predeterminado</li>
+        </ul>
+
+    En este ejemplo, el controlador pasa una lista de elementos al modelo, y la página HTML utiliza la
+    sintaxis de Thymeleaf para iterar sobre esa lista y mostrar cada elemento en una etiqueta li.
+
+    * Mostrar o ocultar elementos HTML en función de una condición:
+
+    En el controlador:
+
+        @GetMapping("/ocultar")
+        public String ocultarElemento(Model model) {
+            boolean mostrar = false;
+            model.addAttribute("mostrar", mostrar);
+            return "ocultar";
+        }
+
+    En la página HTML:
+
+        <h1 th:if="${mostrar}">Este mensaje se mostrará si la variable 'mostrar' es verdadera</h1>
+        <h1 th:unless="${mostrar}">Este mensaje se mostrará si la variable 'mostrar' es falsa</h1>
+
+    En este ejemplo, el controlador pasa un valor booleano al modelo, y la página HTML utiliza la sintaxis de
+    Thymeleaf para mostrar u ocultar elementos en función de esa variable. La etiqueta h1 con la directiva
+    th:if se mostrará si la variable "mostrar" es verdadera, mientras que la etiqueta h1 con la directiva
+    th:unless se mostrará si la variable "mostrar" es falsa.
+
+    La clase Model es una de las principales clases utilizadas en los controladores de Spring. Sirve como
+    contenedor para los datos que se enviarán a la vista para que sean renderizados por el navegador.
+    La clase Model es una interfaz de Map que proporciona una forma de agregar atributos a la vista.
+
+    En la mayoría de los casos, el controlador utiliza la clase Model para agregar objetos a la vista que
+    serán utilizados para renderizar el contenido dinámico. Por ejemplo, si se desea mostrar una lista de
+    productos en una página web, el controlador podría crear una lista de objetos Producto y agregarla a
+    la clase Model. A continuación, se pasaría la instancia de Model al método que maneja la petición y se
+    enviaría el contenido de la lista a la vista correspondiente para que sea renderizado.
+
+    La clase Model también puede ser utilizada para agregar atributos globales que se aplican a todas las
+    vistas. En este caso, se utiliza el método addAttribute() para agregar los atributos. Estos atributos
+    se pueden recuperar en cualquier vista, sin importar a qué controlador pertenezcan.
+
+    En resumen, la clase Model es una herramienta útil para enviar datos desde el controlador a la vista en
+    una aplicación web de Spring.
+
+    Aquí hay un ejemplo básico de cómo se puede utilizar en un controlador:
+
+        @Controller
+        public class EjemploController {
+
+            @GetMapping("/ejemplo")
+            public String ejemplo(Model model) {
+                model.addAttribute("mensaje", "Hola mundo!");
+                return "ejemplo"; // devuelve la vista "ejemplo.html"
+            }
+        }
+
+    En este ejemplo, se ha definido un controlador llamado EjemploController con un método ejemplo que
+    devuelve la vista "ejemplo.html". Se ha agregado un atributo llamado "mensaje" al modelo de datos
+    utilizando el método addAttribute de la clase Model.
+
+    En la vista "ejemplo.html", el valor del atributo "mensaje" se puede mostrar utilizando la sintaxis
+    de Thymeleaf:
+
+        <!DOCTYPE html>
+        <html xmlns:th="http://www.thymeleaf.org">
+        <head>
+            <meta charset="UTF-8">
+            <title>Ejemplo</title>
+        </head>
+        <body>
+            <h1 th:text="${mensaje}"></h1>
+        </body>
+        </html>
+
+    En este ejemplo, se ha utilizado la expresión ${mensaje} para mostrar el valor del atributo "mensaje"
+    del modelo de datos.
+
+    Otro ejemplo en el que se puede utilizar la clase Model es para pasar una lista de objetos a la vista:
+
+        @Controller
+        public class EjemploController {
+
+            @GetMapping("/ejemplo")
+            public String ejemplo(Model model) {
+                List<String> nombres = Arrays.asList("Juan", "Pedro", "María");
+                model.addAttribute("nombres", nombres);
+                return "ejemplo"; // devuelve la vista "ejemplo.html"
+            }
+        }
+
+    En este ejemplo, se ha creado una lista de nombres y se ha agregado al modelo de datos con el
+    nombre "nombres". En la vista "ejemplo.html", se puede mostrar esta lista utilizando la sintaxis de Thymeleaf:
+
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ejemplo</title>
+    </head>
+    <body>
+        <ul>
+            <li th:each="nombre : ${nombres}" th:text="${nombre}"></li>
+        </ul>
+    </body>
+    </html>
+
+    En este ejemplo, se ha utilizado la directiva th:each para iterar sobre la lista de nombres y mostrar
+    cada nombre en un elemento de lista <li>.

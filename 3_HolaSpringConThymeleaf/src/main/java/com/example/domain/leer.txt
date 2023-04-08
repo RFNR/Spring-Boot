@@ -1,0 +1,66 @@
+
+    La carpeta "domain" en Java o Spring Boot se utiliza para definir las clases que representan los objetos de dominio
+    de una aplicación. Estos objetos suelen ser representaciones de entidades de la vida real, como usuarios, productos,
+    pedidos, entre otros. La idea es que estas clases estén enfocadas en definir la estructura y comportamiento de estos
+    objetos, y no en la lógica de negocio.
+
+    Por ejemplo, supongamos que estamos desarrollando una aplicación de e-commerce y queremos definir la clase Product
+    que represente un producto en nuestra tienda en línea. Podríamos crear la siguiente clase en la carpeta "domain":
+
+        package com.example.ecommerce.domain;
+
+        public class Product {
+            private Long id;
+            private String name;
+            private String description;
+            private Double price;
+
+            // getters y setters omitidos por brevedad
+        }
+
+    Aquí, definimos los atributos de un producto, como su id, name, description y price. También podríamos definir
+    métodos que nos permitan interactuar con estos atributos, como métodos para obtener y establecer los valores de los
+    atributos (getters y setters).
+
+    En general, la carpeta "domain" es una buena práctica para separar claramente los objetos de dominio de la lógica de
+    negocio de una aplicación, lo que facilita la comprensión y mantenimiento del código.
+
+    --------------------------------------------------------------------------------------------------------------------
+
+    La anotación @Data es proporcionada por el framework Project Lombok y se utiliza para generar automáticamente los
+    métodos comunes de un POJO (Plain Old Java Object), como los métodos getter, setter, toString, equals y hashCode.
+
+    A continuación, se presenta un ejemplo de cómo se utiliza la anotación @Data:
+
+        import lombok.Data;
+
+        @Data
+        public class User {
+            private Long id;
+            private String name;
+            private String email;
+        }
+
+    En este ejemplo, la anotación @Data se coloca en la clase User. Esto genera automáticamente los métodos getter y
+    setter para las propiedades id, name y email, así como los métodos toString, equals y hashCode.
+
+    Para ilustrar cómo funciona, el siguiente código mostrará cómo se utilizan los métodos generados:
+
+        User user = new User();
+        user.setId(1L);
+        user.setName("John");
+        user.setEmail("john@example.com");
+
+        System.out.println(user.toString());
+        System.out.println(user.getName());
+
+    La salida del código será:
+
+        User(id=1, name=John, email=john@example.com)
+        John
+
+    Como se puede ver, la llamada al método toString se ha generado automáticamente e imprime todas las propiedades de
+    la clase. Además, se puede acceder a la propiedad name utilizando el método getter generado automáticamente.
+
+    En resumen, la anotación @Data permite generar automáticamente los métodos comunes de un POJO, lo que reduce la
+    cantidad de código que se necesita escribir y mejora la legibilidad del código.

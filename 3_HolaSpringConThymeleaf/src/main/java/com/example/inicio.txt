@@ -1,0 +1,66 @@
+
+    @Controller es una anotación de Spring que se utiliza para marcar una clase como un controlador en la capa web de
+    una aplicación. Los controladores son responsables de manejar las solicitudes HTTP y retornar la respuesta adecuada.
+
+    Cuando se usa la anotación @Controller, Spring automáticamente detecta la clase como un controlador y la registra en
+    el contenedor de Spring. El contenedor de Spring maneja la creación del controlador y la inyección de dependencias,
+    lo que permite una fácil configuración y personalización.
+
+    Además, la anotación @Controller es similar a la anotación @Component, lo que significa que las clases marcadas con
+    @Controller se pueden escanear automáticamente en el proceso de configuración y se pueden usar en otras partes de la
+    aplicación.
+
+    Aquí hay un ejemplo de un controlador básico marcado con la anotación @Controller:
+
+        @Controller
+        public class HomeController {
+
+            @GetMapping("/")
+            public String home() {
+                return "home";
+            }
+
+        }
+
+    En este ejemplo, el controlador maneja una solicitud GET en la ruta raíz "/" y devuelve la cadena "home". Esta
+    cadena se interpreta como el nombre de una vista, que se resolverá en un archivo HTML en la carpeta templates. La
+    vista se renderizará y se enviará como respuesta al cliente que hizo la solicitud.
+
+    Supongamos que queremos mostrar una página de inicio (index.html) en nuestra aplicación web. Para esto, podríamos
+    crear un controlador que maneje la solicitud de la siguiente manera:
+
+        @Controller
+        public class HomeController {
+
+            @GetMapping("/")
+            public String home() {
+                return "index";
+            }
+        }
+
+    En este ejemplo, @Controller indica que esta clase es un controlador. Luego, la anotación @GetMapping("/") indica
+    que este método maneja las solicitudes GET a la ruta principal ("/") de nuestra aplicación. Dentro del método,
+    simplemente retornamos el nombre del archivo HTML que queremos mostrar, que en este caso es "index".
+
+    Luego, para que nuestra aplicación sepa dónde encontrar el archivo "index.html", podemos colocarlo en la carpeta
+    "templates" dentro de nuestra estructura de proyectos. Por ejemplo, podríamos crear una estructura de carpetas como
+    esta:
+
+        src
+        └── main
+            └── resources
+                ├── static
+                └── templates
+                    └── index.html
+
+    En este ejemplo, el archivo "index.html" se encuentra en la carpeta "templates". Al retornar el nombre del archivo
+    en nuestro controlador, Spring Boot buscará automáticamente ese archivo dentro de la carpeta "templates". Luego,
+    mostrará el contenido del archivo HTML en el navegador cuando se accede a la ruta principal de la aplicación.
+
+    Espero que esto te ayude a entender cómo utilizar @Controller con HTML en una aplicación web con Spring Boot.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,82 @@
+
+    La propiedad spring.main.banner-mode se utiliza para configurar la visibilidad del banner de Spring Boot en
+    la consola al iniciar la aplicación. El banner es una presentación visual que se muestra en la consola al
+    iniciar la aplicación, y contiene información como el nombre de la aplicación, la versión de Spring Boot
+    utilizada y otros detalles relevantes.
+
+    Hay tres valores posibles para la propiedad spring.main.banner-mode:
+
+    * OFF: El banner no se mostrará en la consola al iniciar la aplicación.
+    * CONSOLE: El banner se mostrará en la consola al iniciar la aplicación, pero no se imprimirá en el registro de
+    la aplicación.
+    * LOG: El banner se imprimirá tanto en la consola como en el registro de la aplicación al iniciar la aplicación.
+
+    Por defecto, la propiedad spring.main.banner-mode está configurada en CONSOLE, lo que significa que el banner
+    se mostrará en la consola al iniciar la aplicación pero no se imprimirá en el registro de la aplicación.
+
+    Un ejemplo de cómo configurar la propiedad spring.main.banner-mode en el archivo application.properties sería
+    el siguiente:
+
+        spring.main.banner-mode=OFF
+
+    En este caso, el banner no se mostrará en la consola al iniciar la aplicación.
+
+------------------------------------------------------------------------------------------------------------------------
+
+    La propiedad "spring.thymeleaf.cache" es utilizada para habilitar o deshabilitar la cache de Thymeleaf en
+    Spring Boot. Thymeleaf es un motor de plantillas muy popular que permite crear vistas HTML para aplicaciones
+    web.
+
+    Por defecto, la cache de Thymeleaf está habilitada en Spring Boot, lo que significa que las plantillas HTML
+    son procesadas una sola vez y los resultados son almacenados en la cache para un acceso más rápido en las
+    solicitudes posteriores.
+
+    Si se establece "spring.thymeleaf.cache" en "false", se desactiva la cache y las plantillas HTML se procesan
+    en cada solicitud. Esto puede ser útil durante el desarrollo para permitir cambios en tiempo real en las
+    plantillas sin tener que reiniciar la aplicación.
+
+    Ejemplo de configuración en el archivo application.properties:
+
+        spring.thymeleaf.cache=false
+
+    Con esta configuración, se desactiva la cache de Thymeleaf.
+------------------------------------------------------------------------------------------------------------------------
+
+    Para enviar variables por el archivo application.properties en Spring Boot, se utiliza la sintaxis ${variable}.
+    En el archivo application.properties, se definen las variables con el formato nombre_variable=valor_variable,
+    y luego se utilizan en el código con la sintaxis ${nombre_variable}.
+
+    Por ejemplo, si se tiene en el archivo application.properties la siguiente línea:
+
+    nombre_empresa=Mi Empresa
+
+    Se puede utilizar en un controlador de la siguiente manera:
+
+        @Controller
+        public class ControladorEjemplo {
+
+            @Value("${nombre_empresa}")
+            private String nombreEmpresa;
+
+            @GetMapping("/")
+            public String index(Model model) {
+                model.addAttribute("nombre_empresa", nombreEmpresa);
+                return "index";
+            }
+        }
+
+    Y en la vista index.html se puede utilizar la variable ${nombre_empresa} para mostrar el nombre de la empresa.
+    No se pueden usar variables de application.properties sin antes pasar por un controlador.
+
+    Es importante recordar que para poder utilizar las variables del archivo application.properties en el código,
+    se debe utilizar la anotación @Value y se debe haber configurado correctamente la lectura del archivo de
+    propiedades en la clase principal de la aplicación con la anotación @SpringBootApplication.
+
+    En la anotación @Value, la importación por defecto en Java es la siguiente:
+
+    import org.springframework.beans.factory.annotation.Value;
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------

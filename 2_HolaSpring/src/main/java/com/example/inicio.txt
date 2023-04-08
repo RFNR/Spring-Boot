@@ -1,0 +1,191 @@
+
+    *****************   @SpringBootApplication  *****************
+
+    La anotación @SpringBootApplication es una combinación de tres anotaciones:
+
+    * @Configuration: Esta anotación indica que la clase es una fuente de configuración para la aplicación de Spring.
+    * @EnableAutoConfiguration: Esta anotación habilita la configuración automática de Spring Boot, lo que significa que Spring Boot
+    intentará adivinar cómo se debe configurar la aplicación basándose en las dependencias que se han agregado al proyecto.
+    * @ComponentScan: Esta anotación indica a Spring que escanee el paquete actual y sus subpaquetes en busca de componentes de
+    Spring (como controladores, servicios, repositorios, etc.) para que puedan ser detectados y utilizados por la aplicación.
+
+    En resumen, @SpringBootApplication es una anotación que se utiliza en la clase principal de una aplicación de Spring Boot
+    y combina las tres anotaciones mencionadas anteriormente en una sola anotación. Esta anotación permite configurar
+    automáticamente la aplicación de Spring y escanear los componentes de Spring en el paquete actual y sus subpaquetes
+    para que puedan ser utilizados por la aplicación.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+    *****************   SpringApplication.run(HolaSpringApplication.class, args)    *****************
+
+    SpringApplication es una clase de utilidad que se utiliza para iniciar y configurar una aplicación de Spring Boot.
+
+    El método run es el punto de entrada para la aplicación y se utiliza para iniciar la aplicación. Toma dos parámetros:
+
+    * La clase principal de la aplicación, que es HolaSpringApplication.class en este caso. Esta clase es la que contiene
+    la anotación @SpringBootApplication y configura la aplicación de Spring Boot.
+    * Un array de argumentos que se pasan a la aplicación. Estos argumentos se pueden utilizar para personalizar la
+    configuración de la aplicación.
+    * El método run realiza varias tareas para configurar la aplicación y luego la inicia:
+
+        - Configura el entorno de la aplicación, incluyendo la configuración de las propiedades de la aplicación y la detección
+        de las clases de configuración de Spring.
+
+        - Carga los contextos de la aplicación, incluyendo los contextos de la aplicación de Spring y de la web.
+
+        - Configura y registra los componentes de la aplicación, como los controladores, servicios y repositorios de Spring.
+
+        - Inicia el servidor web y la aplicación de Spring Boot.
+
+    * La línea de código SpringApplication.run(HolaSpringApplication.class, args); llama al método run de SpringApplication
+    para iniciar la aplicación utilizando la clase HolaSpringApplication como clase principal y los argumentos que se pasan
+    a la aplicación.
+
+    En resumen, SpringApplication.run(HolaSpringApplication.class, args); es una línea de código que inicia una aplicación de
+    Spring Boot, utilizando la clase HolaSpringApplication como clase principal y los argumentos que se pasan a la aplicación.
+    El método run realiza varias tareas para configurar y registrar los componentes de la aplicación y luego inicia el servidor
+    web y la aplicación de Spring Boot.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+    *****************   ControladorRest.java    *****************
+
+    Un controlador de tipo REST en Spring Boot es una clase que maneja solicitudes HTTP y devuelve una respuesta HTTP adecuada.
+    Utiliza el modelo de arquitectura REST para proporcionar una interfaz de programación de aplicaciones (API) web que permita
+    a los clientes (por ejemplo, navegadores web, aplicaciones móviles) interactuar con el servidor.
+
+    Para crear un controlador REST en Spring Boot, normalmente se anota una clase con la anotación @RestController.
+    Esta anotación es una combinación de las anotaciones @Controller y @ResponseBody. @Controller indica que la clase
+    es un controlador, mientras que @ResponseBody indica que el resultado de la llamada al método del controlador debe ser
+    serializado y devuelto en el cuerpo de la respuesta HTTP.
+    y se definen
+    Dentro de esta clase normalmente se definen uno o más métodos que manejen diferentes solicitudes HTTP (por ejemplo, GET, POST,
+    PUT, DELETE). Estos métodos se anotan con las anotaciones correspondientes a los tipos de solicitud HTTP que manejan (por ejemplo,
+    @GetMapping, @PostMapping, @PutMapping, @DeleteMapping), y pueden tomar parámetros que representen los datos de la solicitud (por
+    ejemplo, @RequestParam, @PathVariable, @RequestBody) y devolver un objeto que represente la respuesta HTTP (por ejemplo, una cadena,
+    un objeto serializado en JSON).
+    En el método del controlador se puede definir la lógica necesaria para manejar la petición y se debe retornar la respuesta en un objeto
+    que Spring Boot convertirá automáticamente a formato JSON o XML, dependiendo de la configuración del proyecto.
+
+    Un ejemplo de un controlador REST básico en Spring Boot es el siguiente:
+
+    @RestController
+    public class MiControlador {
+
+        @GetMapping("/saludar")
+        public String saludar() {
+            return "Hola, mundo!";
+        }
+    }
+
+    En este ejemplo, la clase MiControlador está anotada con @RestController, lo que indica que es un controlador REST.
+    El método saludar() está anotado con @GetMapping y maneja las solicitudes HTTP GET a la URL /saludar. El cuerpo de la
+    respuesta HTTP devuelto por este método es simplemente una cadena que dice "Hola, mundo!".
+
+    Además, Spring Boot ofrece otras características que pueden ser útiles en el manejo de controladores REST, como la validación de datos
+    recibidos en la petición utilizando la anotación @Valid y la manipulación de excepciones mediante la anotación @ExceptionHandler.
+
+    En resumen, un controlador REST en Spring Boot es una pieza fundamental en la construcción de una API RESTful, que se encarga de manejar
+    las peticiones HTTP y enviar respuestas en formato JSON o XML para poder ser consumidas por cualquier cliente que hable HTTP.
+
+    IMPORTANTE --> LOS CONTROLADORES DEBEN ESTAR EN EL MISMO PAQUETE QUE LA CLASE PRINCIPAL. EN ESTE CASO, ControladorRest DEBE ESTAR EN EL
+    MISMO PAQUETE QUE HolaSpringApplication.
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+     *****************      @RestController     *****************
+
+     En Spring Boot, la anotación @RestController se utiliza para indicar que una clase es un controlador REST.
+     Esta anotación combina dos anotaciones: @Controller y @ResponseBody.
+
+     La anotación @Controller se utiliza para marcar una clase como controlador en Spring. La clase anotada con
+     @Controller es responsable de procesar las solicitudes HTTP entrantes y generar una respuesta.
+
+     La anotación @ResponseBody se utiliza para indicar que el valor devuelto por un método debe escribirse
+     directamente en el cuerpo de la respuesta HTTP, en lugar de ser renderizado por una vista. Es decir, indica
+     que el método devuelve una respuesta en formato JSON o XML, en lugar de una vista HTML.
+
+     Al combinar ambas anotaciones en @RestController, Spring Boot nos permite crear fácilmente servicios web RESTful.
+     Los métodos dentro de una clase anotada con @RestController se pueden mapear a diferentes URL mediante la
+     anotación @RequestMapping y los parámetros de la solicitud HTTP se pueden acceder mediante la anotación
+     @RequestParam.
+
+     Por lo tanto, @RestController se utiliza para crear un controlador que maneja solicitudes HTTP y devuelve
+     una respuesta directamente en el cuerpo de la respuesta HTTP en formato JSON o XML.
+ ----------------------------------------------------------------------------------------------------------------------------------------------
+
+     *****************      @Slf4j       *****************
+
+    La anotación @Slf4j es parte del framework de logging llamado "Simple Logging Facade for Java" o SLF4J. Su
+    objetivo es proporcionar un logging universal para aplicaciones Java, permitiendo que la aplicación utilice
+    diferentes sistemas de logging sin tener que cambiar el código fuente.
+
+    Para utilizar @Slf4j, primero debes asegurarte de tener la dependencia de SLF4J en tu proyecto. Luego, puedes
+    simplemente agregar la anotación @Slf4j encima de la clase donde deseas utilizar el logger.
+
+    Por ejemplo, supongamos que tenemos una clase llamada "MiClase" y queremos utilizar el logger para imprimir un
+    mensaje de información en la consola. Podemos hacer lo siguiente:
+
+        import lombok.extern.slf4j.Slf4j;
+
+        @Slf4j
+        public class MiClase {
+            public void miMetodo() {
+                log.info("Este es un mensaje de información");
+            }
+        }
+
+    Aquí, utilizamos la anotación @Slf4j para agregar un objeto logger estático a nuestra clase. Luego,
+    utilizamos el método "info" del logger para imprimir un mensaje de información en la consola.
+
+    Es importante tener en cuenta que SLF4J no es un sistema de logging en sí mismo, sino más bien una fachada
+    o interfaz que permite a las aplicaciones utilizar diferentes sistemas de logging (como Logback, Log4j, etc.)
+    de manera más sencilla y unificada.
+
+    Además, la anotación @Slf4j es proporcionada por Lombok, una biblioteca de Java que permite la generación
+    automática de código repetitivo en tiempo de compilación, lo que puede hacer que el código sea más conciso
+    y legible.
+
+    Ejemplo 1:
+
+        @GetMapping("/hello")
+        public String hello() {
+            log.debug("Entrando al método hello");
+            log.info("Retornando el mensaje de bienvenida");
+            return "¡Hola! Bienvenido a mi aplicación Spring Boot";
+        }
+
+    En este ejemplo, se utiliza log.debug para imprimir un mensaje de depuración cuando el método hello es
+    llamado. Este mensaje solo se mostrará si el nivel de registro está configurado en DEBUG. Después, se
+    utiliza log.info para imprimir un mensaje informativo que indica que se ha retornado el mensaje de
+    bienvenida. Este mensaje se mostrará siempre y cuando el nivel de registro esté configurado en INFO
+    o superior.
+
+    Ejemplo 2:
+
+        @PostMapping("/users")
+        public ResponseEntity<User> createUser(@RequestBody User user) {
+            log.debug("Entrando al método createUser con el usuario: {}", user);
+            User savedUser = userService.createUser(user);
+            log.info("Usuario creado exitosamente con el id: {}", savedUser.getId());
+            return ResponseEntity.created(URI.create("/users/" + savedUser.getId())).body(savedUser);
+        }
+    En este ejemplo, se utiliza log.debug para imprimir un mensaje de depuración que muestra el usuario que
+    se está intentando crear. Se utiliza la notación {} para reemplazar los valores que se encuentran en las
+    llaves con los argumentos del método, lo cual hace que el mensaje sea más legible. Después de crear el usuario,
+    se utiliza log.info para imprimir un mensaje informativo que indica que el usuario ha sido creado exitosamente
+    y muestra su ID.
+
+    Es importante tener en cuenta que el nivel de registro se puede configurar para que se muestren únicamente
+    los mensajes relevantes para el análisis de errores o para los registros de producción. Los mensajes de
+    depuración son útiles durante el desarrollo, pero se deben desactivar en el entorno de producción para mejorar
+    el rendimiento de la aplicación.
+
+ ----------------------------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------------------------
+ ----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
