@@ -7,14 +7,35 @@
     <body>
         <h1>Inicio</h1>
         <p th:text="${variable}"></p>
-
+        <br>
         <div>
             <div>Nombre: <span th:text="${individuo.nombre}">Este mensaje no se muestra</span></div>
             <div>Apellido: <span th:text="${individuo.apellido}"></span></div>
             <div>Correo: <span th:text="${individuo.correo}"></span></div>
-            <div>Telefono: <span th:text="${individuo.telefono}"></span></div>
+            <div>Teléfono: <span th:text="${individuo.telefono}"></span></div>
             <div>Edad: <span th:text="${individuo.edad}"></span></div>
-
+        </div>
+        <br>
+        <div th:if="${individuoList != null && !individuoList.empty}">
+            <table border="2">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Edad</th>
+                </tr>
+                <tr th:each="individuo : ${individuoList}">
+                    <td th:text="${individuo.nombre}"></td>
+                    <td th:text="${individuo.apellido}"></td>
+                    <td th:text="${individuo.correo}"></td>
+                    <td th:text="${individuo.telefono}"></td>
+                    <td th:text="${individuo.edad}"></td>
+                </tr>
+            </table>
+        </div>
+        <div th:if="${individuoList == null || individuoList.empty}">
+            La lista no tiene información.
         </div>
     </body>
 </html>

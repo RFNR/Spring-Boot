@@ -75,8 +75,499 @@
     En la anotación @Value, la importación por defecto en Java es la siguiente:
 
     import org.springframework.beans.factory.annotation.Value;
+
+------------------------------------------------------------------------------------------------------------------------
+    Para instalar el conector de MySQL para Java en un proyecto de Spring Boot, puedes seguir los siguientes pasos:
+
+    * Agrega la dependencia en el archivo pom.xml de tu proyecto. Para esto, agrega las siguientes líneas dentro de la
+    sección <dependencies>:
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.27</version>
+        </dependency>
+
+        La versión puede variar dependiendo de la versión del conector que desees utilizar.
+
+    * Guarda el archivo pom.xml y actualiza las dependencias de tu proyecto. Si estás utilizando una IDE como Eclipse o
+    IntelliJ IDEA, puedes hacer clic derecho sobre el archivo pom.xml y seleccionar la opción "Maven" > "Update
+    Project". Si estás utilizando la línea de comandos, ejecuta el comando mvn clean install.
+
+    * Configura las propiedades de conexión a la base de datos en el archivo application.properties. Por ejemplo:
+
+        spring.datasource.url=jdbc:mysql://localhost:3306/mydatabase
+        spring.datasource.username=myuser
+        spring.datasource.password=mypassword
+
+        Reemplaza mydatabase, myuser y mypassword por los valores correspondientes.
+
+    * En tu aplicación de Spring Boot, crea un bean de tipo JdbcTemplate que te permita interactuar con la base de
+    datos. Por ejemplo:
+
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
+        }
+        Esto creará un bean de tipo JdbcTemplate que estará disponible para ser inyectado en otros componentes de tu
+        aplicación.
+
+    Con estos pasos, deberías tener instalado el conector de MySQL para Java en tu proyecto de Spring Boot y estar listo
+    para interactuar con la base de datos.
+
+
+    spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+    spring.jpa.data-platform=org.hibernate.dialect.MySQLDialect
+    spring.jpa.properties.hibernate.format_sql=true
+    logging.level.org.hibernate.SQL=DEBUG
+    logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+------------------------------------------------------------------------------------------------------------------------
+    Conexión a base de datos por application.properties:
+
+    * spring.datasource.url = jdbc:mysql://localhost:3306/test_spring_boot?useSSL=false&serverTimezone=UTC
+
+        - spring.datasource.url: esta propiedad indica la URL de la base de datos que se va a usar en la aplicación.
+
+        - jdbc:mysql://localhost:3306/: esta es la parte del protocolo JDBC que indica que se está utilizando el
+        controlador de MySQL, seguido de la dirección del servidor de la base de datos (en este caso, "localhost" indica
+        que se está utilizando una base de datos en la misma máquina que la aplicación) y el puerto en el que está
+        escuchando MySQL (por defecto, el puerto es 3306).
+        - test_spring_boot: este es el nombre de la base de datos que se está utilizando.
+        - ?useSSL=false&serverTimezone=UTC: estos son los parámetros adicionales que se están pasando a la conexión.
+        useSSL=false indica que la conexión no se está realizando a través de SSL, mientras que serverTimezone=UTC
+        indica que se está utilizando la zona horaria UTC para la base de datos.
+
+        El parámetro useSSL se establece en false, lo que significa que la conexión a la base de datos MySQL no se realiza
+        mediante SSL (Secure Sockets Layer). SSL es un protocolo de seguridad que se utiliza para proteger la comunicación
+        entre el cliente (en este caso la aplicación Spring Boot) y el servidor de base de datos (MySQL).
+
+        Cuando se establece useSSL en false, la comunicación entre el cliente y el servidor no está cifrada, lo que
+        significa que se envían los datos en texto plano y que podrían ser interceptados por terceros. Por lo tanto, es
+        importante tener en cuenta que si estás trabajando con datos sensibles, deberías establecer useSSL en true para
+        cifrar la comunicación entre la aplicación y la base de datos.
+
+        La propiedad allowPublicKeyRetrieval=true indica que se permite la recuperación de claves públicas durante la
+        autenticación SSL.
+        En versiones antiguas de MySQL, la recuperación de claves públicas se hacía automáticamente durante la autenticación
+        SSL. Pero, en versiones posteriores de MySQL, la recuperación de claves públicas se realiza solo si se especifica
+        explícitamente allowPublicKeyRetrieval=true.
+        Por lo tanto, si se usa una versión más reciente de MySQL y la autenticación SSL falla, es posible que deba agregar
+        allowPublicKeyRetrieval=true a la URL de conexión.
+        No es necesario agregar &allowPublicKeyRetrieval=true si useSSL=false en la URL de conexión a la base de datos.
+        allowPublicKeyRetrieval es una propiedad que se utiliza para habilitar la recuperación de claves públicas de los
+        certificados del servidor cuando se utiliza SSL en la conexión. Si useSSL=false, no se utiliza SSL en la conexión y
+        por lo tanto no es necesario habilitar la recuperación de claves públicas.
+        Solo debes agregar las propiedades necesarias para la conexión de base de datos que estás utilizando. Si no estás
+        usando SSL, no es necesario agregar las propiedades relacionadas con SSL como allowPublicKeyRetrieval.
+
+        En resumen, esta línea de código especifica la ubicación de la base de datos MySQL que se utilizará en la aplicación,
+        junto con algunos parámetros adicionales que se pasan a la conexión. Si estás obteniendo el error
+        "java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)", esto puede significar que
+        el nombre de usuario y/o la contraseña que se están utilizando para acceder a la base de datos son incorrectos.
+        Asegúrate de que estés utilizando las credenciales correctas y de que tengan los permisos necesarios para acceder a
+        la base de datos.
+
+    * spring.datasource.username=root
+
+        spring.datasource.username=root es una propiedad en el archivo de configuración de Spring Boot
+        (application.properties o application.yml) que establece el nombre de usuario de la base de datos. En este caso,
+        el nombre de usuario es root, lo que es comúnmente utilizado en entornos de desarrollo y prueba.
+
+        La propiedad spring.datasource.username se utiliza para establecer el nombre de usuario para acceder a la base
+        de datos. La mayoría de las aplicaciones web necesitan interactuar con una base de datos y, por lo tanto,
+        necesitan una forma de autenticarse en la base de datos. En el caso de MySQL, el nombre de usuario
+        predeterminado es root, que es un usuario con todos los permisos necesarios para crear y modificar bases de
+        datos.
+
+        Es importante tener en cuenta que establecer el nombre de usuario y la contraseña en el archivo de configuración
+        puede no ser seguro y se debe evitar en un entorno de producción. En su lugar, se debe considerar utilizar
+        variables de entorno o sistemas de autenticación más seguros.
+
+    * spring.datasource.password=40404268
+
+        La propiedad spring.datasource.password es utilizada para especificar la contraseña del usuario de la base de
+        datos a la que se está conectando. En este caso, se ha configurado la contraseña para el usuario "root".
+
+        Es importante que la contraseña esté en un formato seguro y no sea visible para otros usuarios que puedan tener
+        acceso al archivo application.properties. En este ejemplo, la contraseña parece ser una secuencia numérica, pero
+        se recomienda utilizar una contraseña más compleja y segura.
+
+        Es recomendable proteger la información sensible como contraseñas y datos de conexión en un lugar seguro, por
+        ejemplo, utilizando variables de entorno o archivos de configuración cifrados.
+
+    * spring.datasource.Driver = com.mysql.cj.jdbc.Driver
+
+        La propiedad spring.datasource.Driver es un formato que se utiliza en la primera version de Spring. Para las
+        versiones 2 en adelante, se recomienda spring.datasource.driver-class-name. Por lo tanto, se cambiará en el
+        archivo application.properties.
+
+        La propiedad spring.datasource.driver-class-name indica al sistema qué controlador JDBC debe ser utilizado para
+        conectar con la base de datos. En este caso, la propiedad indica que se está utilizando el controlador JDBC
+        com.mysql.cj.jdbc.Driver.
+
+        Esta propiedad es importante porque cada base de datos tiene un controlador JDBC específico que se encarga de
+        traducir las solicitudes del programa en el lenguaje de la base de datos y viceversa.
+
+        En el caso de MySQL, el controlador JDBC se incluye en la biblioteca mysql-connector-java, que debe agregarse
+        como una dependencia en el archivo pom.xml.
+
+        Aquí tienes un ejemplo de cómo se configura spring.datasource.driver-class-name en el archivo
+        application.properties:
+
+        spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+        Es importante destacar que esta propiedad debe coincidir con la versión del controlador JDBC que se está
+        utilizando.
+
+
+------------------------------------------------------------------------------------------------------------------------
+
+    Hibernate
+
+    Hibernate es un framework de mapeo objeto-relacional (ORM) para Java que permite a los desarrolladores trabajar con
+    datos de bases de datos relacionales en términos de objetos Java. Con Hibernate, se pueden crear clases Java
+    simples, llamadas entidades, que representan tablas en una base de datos relacional. Estas entidades se pueden
+    relacionar entre sí y se pueden manipular en una aplicación Java sin tener que escribir SQL o preocuparse por
+    detalles de bajo nivel de cómo se almacenan los datos en la base de datos.
+
+    Hibernate se encarga de generar el SQL necesario para interactuar con la base de datos, así como de realizar el
+    mapeo entre los objetos Java y las tablas de la base de datos. Además, Hibernate proporciona una serie de
+    características útiles, como caché de segundo nivel, consultas anticipadas, transacciones, etc.
+
+    Hibernate es una herramienta popular y madura utilizada en muchos proyectos de Java en todo el mundo. Es compatible
+    con la mayoría de las bases de datos relacionales, incluidas MySQL, PostgreSQL, Oracle y Microsoft SQL Server.
+
+    A continuación, se presentan algunos ejemplos de cómo Hibernate puede utilizarse para mapear objetos Java a una base
+    de datos relacional:
+
+    * Mapear una clase Java a una tabla de base de datos:
+        Supongamos que tenemos una clase Java llamada "Producto" que tiene una serie de atributos, como "nombre",
+        "precio" y "descripción". Podemos utilizar Hibernate para mapear esta clase a una tabla de base de datos llamada
+        "productos" de la siguiente manera:
+
+        @Entity
+        @Table(name = "productos")
+        public class Producto {
+
+            @Id
+            @GeneratedValue(strategy = GenerationType.IDENTITY)
+            private Long id;
+
+            @Column(name = "nombre")
+            private String nombre;
+
+            @Column(name = "precio")
+            private Double precio;
+
+            @Column(name = "descripcion")
+            private String descripcion;
+
+            // getters y setters
+        }
+
+        En este ejemplo, utilizamos la anotación @Entity para indicar que esta clase es una entidad de Hibernate y la
+        anotación @Table para especificar el nombre de la tabla de base de datos. También utilizamos otras anotaciones
+        de Hibernate, como @Id para indicar que el atributo "id" es la clave primaria de la tabla y @Column para
+        especificar el nombre de las columnas de la tabla que corresponden a cada atributo de la clase.
+
+        La anotación @Id se utiliza para marcar una propiedad de una entidad como identificador. Esto significa que
+        esta propiedad será utilizada como clave primaria en la tabla correspondiente en la base de datos.
+        Por otro lado, la anotación @GeneratedValue se utiliza para especificar cómo se generará el valor de la clave
+        primaria cuando se inserte una nueva entidad en la base de datos. En este caso particular, la estrategia
+        utilizada es GenerationType.IDENTITY, lo que significa que el valor de la clave primaria se generará
+        automáticamente por la base de datos y se asignará a la propiedad correspondiente en la entidad.
+        En resumen, estas dos anotaciones trabajan juntas para indicar cuál propiedad de una entidad es su clave
+        primaria y cómo se generará su valor en la base de datos. Esto es esencial para el mapeo de objetos a bases de
+        datos relacionales y para el funcionamiento correcto de las operaciones CRUD (Create, Read, Update, Delete) en
+        la aplicación.
+
+    * Mapear una relación entre dos clases Java:
+        Supongamos que tenemos una clase Java llamada "Pedido" que tiene una lista de objetos de la clase "Producto".
+        Podemos utilizar Hibernate para mapear esta relación de la siguiente manera:
+
+        @Entity
+        @Table(name = "pedidos")
+        public class Pedido {
+
+            @Id
+            @GeneratedValue(strategy = GenerationType.IDENTITY)
+            private Long id;
+
+            @OneToMany(cascade = CascadeType.ALL)
+            @JoinColumn(name = "pedido_id")
+            private List<Producto> productos;
+
+            // getters y setters
+        }
+        La anotación @OneToMany es una anotación de JPA que se utiliza para mapear una relación de uno a muchos entre
+        dos entidades. Indica que una entidad de la clase anotada tiene una relación de uno a muchos con otra entidad.
+
+        Por ejemplo, si se tiene una entidad Autor y una entidad Libro, donde un autor puede tener varios libros, se
+        podría utilizar la anotación @OneToMany en la entidad Autor para indicar que un autor tiene muchos libros:
+
+            @Entity
+            public class Autor {
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long id;
+
+                private String nombre;
+
+                @OneToMany(mappedBy = "autor")
+                private List<Libro> libros;
+
+                // constructor, getters y setters
+            }
+        En este ejemplo, se utiliza la anotación @OneToMany en la clase Autor para indicar que hay una relación de uno
+        a muchos con la entidad Libro. El atributo mappedBy se utiliza para especificar el nombre del atributo en la
+        clase Libro que representa la relación inversa a la relación @OneToMany en la clase Autor.
+
+        @Entity
+        public class Libro {
+            @Id
+            @GeneratedValue(strategy = GenerationType.IDENTITY)
+            private Long id;
+
+            private String titulo;
+
+            @ManyToOne
+            @JoinColumn(name = "autor_id")
+            private Autor autor;
+
+            // constructor, getters y setters
+        }
+        En la clase Libro, se utiliza la anotación @ManyToOne para indicar que hay una relación de muchos a uno con la
+        entidad Autor. El atributo JoinColumn se utiliza para especificar la columna de la tabla de Libro que se utiliza
+        para almacenar el ID de la entidad de Autor relacionada.
+
+        En resumen, la anotación @OneToMany se utiliza para mapear una relación de uno a muchos entre dos entidades y se
+        utiliza junto con la anotación @ManyToOne en la clase de la entidad relacionada.
+        También utilizamos la anotación @JoinColumn para especificar el nombre de la
+        columna que se utilizará para establecer la relación entre las dos tablas de base de datos.
+
+        Otro ejemplo:
+
+        Supongamos que tenemos una entidad "Departamento" que tiene una relación uno a muchos con la entidad "Empleado".
+        Cada departamento tiene varios empleados, pero cada empleado solo pertenece a un departamento. La clase
+        "Departamento" se vería así:
+
+            @Entity
+            public class Departamento {
+
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long id;
+
+                private String nombre;
+
+                @OneToMany(mappedBy = "departamento", cascade = CascadeType.ALL)
+                private List<Empleado> empleados = new ArrayList<>();
+
+                // constructores, getters y setters
+            }
+        La anotación @OneToMany se utiliza en la propiedad "empleados" para establecer la relación uno a muchos. El
+        atributo "mappedBy" indica el nombre de la propiedad en la clase "Empleado" que mapea la relación. En este caso,
+        la propiedad "departamento" de la clase "Empleado" establece la relación con la clase "Departamento".
+
+        Además, la anotación @CascadeType.ALL se utiliza para indicar que cualquier cambio en la entidad "Departamento"
+        se propagará a todas las entidades relacionadas "Empleado".
+
+        La clase "Empleado" se vería así:
+
+            @Entity
+            public class Empleado {
+
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long id;
+
+                private String nombre;
+
+                @ManyToOne
+                @JoinColumn(name = "departamento_id")
+                private Departamento departamento;
+
+                // constructores, getters y setters
+            }
+        La anotación @ManyToOne se utiliza en la propiedad "departamento" para establecer la relación muchos a uno con
+        la clase "Departamento". El atributo "name" en la anotación @JoinColumn se utiliza para especificar el nombre de
+        la columna de la clave externa en la tabla "Empleado" que hace referencia a la clave primaria en la tabla
+        "Departamento".
+
+        En resumen, la anotación @OneToMany se utiliza para establecer relaciones uno a muchos en JPA. Se utiliza en la
+        clase propietaria de la relación y se especifica la propiedad que mapea la relación en la clase inversa con el
+        atributo "mappedBy".
+
+
+    Estos son solo algunos ejemplos de cómo Hibernate puede utilizarse para mapear objetos Java a una base de datos
+    relacional. En general, Hibernate facilita la interacción con la base de datos al permitir que los desarrolladores
+    trabajen con objetos Java en lugar de SQL directamente.
+
+------------------------------------------------------------------------------------------------------------------------
+    * spring.jpa.data-platform=org.hibernate.dialect.MySQLDialect
+
+        spring.jpa.data-platform y  spring.jpa.properties.hibernate.dialect son dos formas de especificar el dialecto
+        que se utilizara para la comunicación con la base de datos.
+
+        La propiedad spring.jpa.properties.hibernate.dialect se utiliza para especificar el dialecto de base de datos
+        que se utiliza para generar las consultas SQL específicas de la base de datos.
+
+        El dialecto es esencialmente una clase Java que proporciona Hibernate para traducir las consultas de Hibernate
+        en consultas específicas de la base de datos. Como diferentes bases de datos tienen diferentes sintaxis de SQL,
+        es necesario especificar el dialecto de la base de datos que se está utilizando para asegurarse de que las
+        consultas sean generadas correctamente.
+
+        En el caso de MySQL, se utiliza el dialecto org.hibernate.dialect.MySQLDialect. Esta clase proporciona soporte
+        específico de MySQL para la creación de tablas, índices, restricciones y otras operaciones de base de datos. Por
+        ejemplo, este dialecto permitiría a Hibernate utilizar la función LIMIT para paginación de resultados.
+
+        La propiedad spring.jpa.data-platform es una forma alternativa de especificar el dialecto de la base de datos.
+        En este caso, la propiedad especifica la plataforma de datos que se está utilizando. En el caso de MySQL, se
+        utilizaría org.hibernate.dialect.MySQLDialect como valor para esta propiedad.
+
+        En resumen, la propiedad spring.jpa.properties.hibernate.dialect o spring.jpa.data-platform se utiliza para
+        especificar el dialecto de la base de datos que se está utilizando en una aplicación de Spring Boot con
+        JPA/Hibernate. En el caso de MySQL, se utiliza org.hibernate.dialect.MySQLDialect.
+
+    * spring.jpa.properties.hibernate.format_sql=true
+
+        La propiedad spring.jpa.properties.hibernate.format_sql se utiliza para formatear la salida SQL generada por
+        Hibernate. Cuando se establece en true, Hibernate formateará la salida SQL con sangría y saltos de línea para
+        facilitar la lectura y el análisis de los desarrolladores.
+
+        En otras palabras, si se configura esta propiedad en true, se mostrarán las consultas SQL generadas por
+        Hibernate en un formato legible para los humanos, lo que facilita la depuración y la comprensión del
+        comportamiento de la aplicación.
+
+        Por ejemplo, al establecer spring.jpa.properties.hibernate.format_sql=true en el archivo application.properties
+        de Spring Boot, la salida SQL se formateará automáticamente:
+
+        Hibernate: select * from customer where id = 1
+
+        en lugar de
+
+        Hibernate: select * from customer where id=1
+
+        Lo que facilita la lectura y el análisis de la consulta.
+
+    * logging.level.org.hibernate.SQL=DEBUG
+
+        La propiedad logging.level.org.hibernate.SQL es una propiedad de configuración de logging que se utiliza para
+        especificar el nivel de logging de las sentencias SQL ejecutadas por Hibernate. En este caso, la configuración
+        es para el nivel de logging DEBUG, que es un nivel de logging bastante detallado que proporciona una gran
+        cantidad de información de depuración.
+
+        Cuando se establece logging.level.org.hibernate.SQL en DEBUG, Hibernate registrará en el log todas las
+        sentencias SQL que se ejecuten durante el ciclo de vida de la sesión. Esto puede ser muy útil para depurar
+        problemas de rendimiento o para entender cómo Hibernate está interactuando con la base de datos.
+
+        La sintaxis para establecer esta propiedad en Spring Boot es la siguiente:
+
+        logging.level.org.hibernate.SQL=DEBUG
+
+        Esto se puede configurar en el archivo application.properties o application.yml según la preferencia del
+        usuario.
+
+        Es importante tener en cuenta que el nivel de logging DEBUG puede generar una gran cantidad de información, lo
+        que puede afectar el rendimiento de la aplicación. Por lo tanto, se recomienda utilizar esta configuración solo
+        cuando sea necesario para depurar problemas específicos.
+
+        El nivel de logging es un concepto utilizado en la configuración de sistemas de registro (logging) para
+        controlar la cantidad de información que se registra. En otras palabras, determina qué tan detallada es la
+        información registrada en los registros (logs) del sistema.
+
+        Hay varios niveles de logging, cada uno de los cuales se utiliza para registrar diferentes niveles de
+        información. Estos niveles pueden incluir DEBUG, INFO, WARN, ERROR y FATAL, entre otros. En general, cuanto más
+        bajo sea el nivel de logging, más detallada será la información registrada.
+
+        La idea detrás de los niveles de logging es que al ajustar el nivel de logging se puede controlar la cantidad de
+        información que se registra en los registros del sistema. Esto es útil porque a veces los registros pueden
+        volverse abrumadores, y si se registra demasiada información, puede ser difícil encontrar la información
+        relevante cuando se necesite.
+
+        En resumen, el nivel de logging es una herramienta importante en la configuración de sistemas de registro, ya
+        que permite a los desarrolladores controlar la cantidad de información registrada en los registros del sistema,
+        lo que a su vez puede ayudar a simplificar el proceso de depuración y solución de problemas.
+
+    * logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+        La propiedad "logging.level.org.hibernate.type.descriptor.sql.BasicBinder" se utiliza para habilitar el registro
+        detallado de los enlaces de parámetros JDBC en Hibernate. Con esta configuración, se registrará cada vez que
+        Hibernate establezca valores de parámetros en una consulta SQL antes de ejecutarla en la base de datos.
+
+        Por ejemplo, si tienes la siguiente consulta SQL en tu código Java:
+
+            SELECT * FROM usuarios WHERE nombre = :nombre AND edad = :edad
+
+        Y luego estableces los parámetros "nombre" y "edad" con valores específicos:
+
+            query.setParameter("nombre", "Juan");
+            query.setParameter("edad", 25);
+
+        Con la propiedad de configuración "logging.level.org.hibernate.type.descriptor.sql.BasicBinder" configurada en
+        "TRACE", se registrarán los valores de los parámetros establecidos:
+
+        binding parameter [1] as [VARCHAR] - [Juan]
+        binding parameter [2] as [INTEGER] - [25]
+
+        Esto puede ser útil para la depuración y optimización de consultas SQL y para asegurarse de que los valores de
+        los parámetros se establecen correctamente antes de ejecutar la consulta.
+
+        Es importante tener en cuenta que habilitar este nivel de registro puede generar una gran cantidad de salida de
+        registro y afectar el rendimiento del sistema. Por lo tanto, se recomienda deshabilitar esta propiedad en
+        entornos de producción.
+
+        Por ejemplo, si tienes la siguiente entidad:
+
+            @Entity
+            public class Usuario {
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long id;
+
+                private String nombre;
+                private String email;
+                private String contrasena;
+                // otros campos y métodos
+            }
+        y realizas una consulta utilizando Spring Data JPA:
+
+            @Repository
+            public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+                List<Usuario> findByEmailAndContrasena(String email, String contrasena);
+            }
+
+        Puedes habilitar el registro de los parámetros que se enlazan en la consulta SQL agregando la siguiente línea a
+        tu archivo application.properties:
+
+        logging.level.org.hibernate.type.descriptor.sql.BasicBinder=TRACE
+
+        Cuando se llama al método findByEmailAndContrasena, Hibernate generará la consulta SQL que se parece a la
+        siguiente:
+
+            select usuario0_.id as id1_, usuario0_.contrasena as contrasena2_, usuario0_.email as email3_, usuario0_.nombre as nombre4_
+            from usuario usuario0_
+            where usuario0_.email=? and usuario0_.contrasena=?
+
+        Con la propiedad logging.level.org.hibernate.type.descriptor.sql.BasicBinder establecida en TRACE, también se
+        registrará cada valor que se enlaza en la consulta SQL. Por ejemplo, si llama al método findByEmailAndContrasena
+        con los parámetros "ejemplo@correo.com" y "contrasena123", Hibernate registrará la siguiente información:
+
+            binding parameter [1] as [VARCHAR] - [ejemplo@correo.com]
+            binding parameter [2] as [VARCHAR] - [contrasena123]
+
+        Esto puede ser útil para depurar y entender qué valores se están utilizando en las consultas SQL generadas por
+        Hibernate.
+
+        Es importante tener en cuenta que habilitar el registro detallado de los parámetros enlazados puede generar un
+        gran volumen de registros, por lo que solo se debe habilitar en entornos de desarrollo o pruebas y deshabilitar
+        en producción.
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+

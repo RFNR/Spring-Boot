@@ -64,3 +64,182 @@
 
     En resumen, la anotación @Data permite generar automáticamente los métodos comunes de un POJO, lo que reduce la
     cantidad de código que se necesita escribir y mejora la legibilidad del código.
+
+    --------------------------------------------------------------------------------------------------------------------
+
+    @Entity
+
+    La anotación @Entity es una anotación de JPA (Java Persistence API) que se utiliza para indicar que una clase es una
+    entidad de base de datos. En otras palabras, una clase anotada con @Entity se mapea directamente a una tabla de base
+    de datos.
+
+    Cuando se utiliza la anotación @Entity, la clase debe tener un constructor vacío y un atributo que se utilizará como
+    clave primaria, que debe ser anotado con @Id. También se pueden utilizar otras anotaciones de JPA, como @Column y
+    @GeneratedValue, para definir los detalles de la tabla y los atributos.
+
+    Por ejemplo, si queremos definir una entidad "Usuario" que tenga una columna "id" como clave primaria y otras
+    columnas como "nombre" y "correo electrónico", podemos escribir algo como esto:
+
+        @Entity
+        public class Usuario {
+           @Id
+           @GeneratedValue(strategy = GenerationType.IDENTITY)
+           private Long id;
+
+           @Column
+           private String nombre;
+
+           @Column(name = "correo_electronico")
+           private String correoElectronico;
+
+           // Constructor, getters y setters
+        }
+
+    En este ejemplo, la clase Usuario está anotada con @Entity, lo que indica que es una entidad de base de datos. La
+    propiedad "id" se define como clave primaria con @Id y se utiliza la estrategia GenerationType.IDENTITY para generar
+    el valor de la clave primaria automáticamente. Los atributos "nombre" y "correoElectronico" se mapean directamente a
+    las columnas de la tabla "Usuario" con los nombres "nombre" y "correo_electronico", respectivamente.
+
+    En resumen, la anotación @Entity se utiliza para indicar que una clase es una entidad de base de datos y se utiliza
+    en combinación con otras anotaciones de JPA para definir los detalles de la tabla y los atributos.
+
+    --------------------------------------------------------------------------------------------------------------------
+
+    @Table
+
+    La anotación @Table es una anotación de JPA que se utiliza para mapear una entidad de Java a una tabla en la base de
+    datos. Se utiliza para personalizar el nombre y otras propiedades de la tabla en la que se va a almacenar la entidad.
+
+    Por defecto, JPA utiliza el nombre de la clase de entidad como el nombre de la tabla en la base de datos. Sin
+    embargo, a veces puede ser necesario especificar un nombre de tabla diferente o personalizar otras propiedades de la
+    tabla, como el esquema o el índice.
+
+    La anotación @Table se coloca encima de la clase de entidad y se puede utilizar para especificar el nombre y otras
+    propiedades de la tabla. La sintaxis básica de la anotación @Table es la siguiente:
+
+        @Entity
+        @Table(name = "nombre_de_la_tabla", schema = "nombre_del_esquema", uniqueConstraints = {...}, indexes = {...})
+        public class MiEntidad {
+            // ...
+        }
+
+    La propiedad name se utiliza para especificar el nombre de la tabla. La propiedad schema se utiliza para especificar
+    el nombre del esquema en el que se encuentra la tabla. Las propiedades uniqueConstraints e indexes se utilizan para
+    especificar las restricciones de unicidad y los índices de la tabla.
+
+    Aquí hay un ejemplo más detallado:
+
+    Supongamos que tenemos una entidad Usuario que se almacena en una tabla llamada usuarios. Podemos utilizar la
+    anotación @Table para especificar el nombre de la tabla y otras propiedades de la siguiente manera:
+
+        @Entity
+        @Table(name = "usuarios", schema = "mi_esquema", uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"nombre_usuario"}),
+            @UniqueConstraint(columnNames = {"correo_electronico"})
+        }, indexes = {
+            @Index(columnList = "nombre_usuario"),
+            @Index(columnList = "correo_electronico")
+        })
+        public class Usuario {
+            @Id
+            @GeneratedValue(strategy = GenerationType.IDENTITY)
+            private Long id;
+
+            @Column(name = "nombre_usuario")
+            private String nombreUsuario;
+
+            @Column(name = "correo_electronico")
+            private String correoElectronico;
+
+            // getters y setters
+        }
+
+    En este ejemplo, hemos especificado que la entidad Usuario se almacena en la tabla usuarios en el esquema
+    mi_esquema. También hemos definido dos restricciones de unicidad en las columnas nombre_usuario y
+    correo_electronico, y dos índices en las mismas columnas.
+
+    --------------------------------------------------------------------------------------------------------------------
+
+    Serializable
+
+    La interfaz Serializable es una interfaz marcadora en Java que indica que una clase puede ser serializada, es decir,
+    que sus objetos se pueden convertir en una secuencia de bytes para ser almacenados en un archivo o para ser
+    transmitidos a través de la red. La serialización es útil en muchos casos, como en la persistencia de objetos en una
+    base de datos, la transmisión de datos entre procesos o la creación de copias de objetos.
+
+    La interfaz Serializable no contiene ningún método, es simplemente una marca que permite a Java saber que una clase
+    puede ser serializada. Para que una clase pueda ser serializada, debe implementar Serializable, lo que significa que
+    la clase y todos sus campos deben ser serializables. Los campos no serializables deben ser marcados como "transient"
+    para evitar errores de serialización.
+
+    La serialización de objetos en Java se realiza mediante la clase ObjectOutputStream, que es capaz de escribir
+    objetos a un flujo de salida en forma de bytes. Para deserializar objetos, se utiliza la clase ObjectInputStream,
+    que lee la secuencia de bytes y crea el objeto correspondiente.
+
+    Claro, aquí te dejo algunos ejemplos de cómo usar la interfaz Serializable en Java:
+
+    Serializando un objeto:
+        Para serializar un objeto, primero debes asegurarte de que la clase implemente la interfaz Serializable. Luego,
+        puedes utilizar la clase ObjectOutputStream para escribir el objeto en un stream de salida. A continuación, se
+        muestra un ejemplo:
+
+            public class Person implements Serializable {
+                private String name;
+                private int age;
+
+                // Constructor, getters y setters
+
+                public static void main(String[] args) {
+                    Person person = new Person("John", 30);
+
+                    try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("person.ser"))) {
+                        outputStream.writeObject(person);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        En este ejemplo, se crea un objeto de tipo Person y se escribe en un archivo llamado "person.ser". La clase
+        Person implementa la interfaz Serializable, lo que significa que todos sus campos pueden ser serializados.
+
+    Deserializando un objeto:
+        Para deserializar un objeto, primero debes asegurarte de que la clase implemente la interfaz Serializable. Luego, puedes utilizar la clase ObjectInputStream para leer el objeto desde un stream de entrada. A continuación, se muestra un ejemplo:
+
+            public static void main(String[] args) {
+                try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("person.ser"))) {
+                    Person person = (Person) inputStream.readObject();
+                    System.out.println(person.getName() + " " + person.getAge());
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        En este ejemplo, se lee el objeto de tipo Person del archivo "person.ser" y se muestra su nombre y edad en la
+        consola.
+
+    Usando la interfaz Serializable en una clase anidada:
+        La interfaz Serializable se puede implementar en una clase anidada. A continuación, se muestra un ejemplo:
+
+            public class OuterClass {
+                private static class InnerClass implements Serializable {
+                    // Fields and methods
+                }
+
+                // Fields and methods
+            }
+        En este ejemplo, la clase InnerClass es una clase anidada de OuterClass y también implementa la interfaz
+        Serializable.
+
+    Usando la interfaz Serializable con herencia:
+        La interfaz Serializable se puede usar con clases que heredan de otras clases serializables. A continuación, se
+        muestra un ejemplo:
+
+            public class Parent implements Serializable {
+                // Fields and methods
+            }
+
+            public class Child extends Parent {
+                // Fields and methods
+            }
+        En este ejemplo, la clase Child hereda de la clase Parent, que implementa la interfaz Serializable. La clase
+        Child también puede ser serializable gracias a la implementación de su clase padre.
